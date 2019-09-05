@@ -1,4 +1,5 @@
 const express = require("express");
+console.log("environment:", process.env.NODE_ENV)
 
 const userRouter = require("./users/userRouter");
 
