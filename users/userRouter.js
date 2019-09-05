@@ -2,6 +2,7 @@ const express = "express";
 const router = require("express").Router();
 const database = require("../users/userDb");
 
+//getting sql error on POST
 router.post("/", validateUser, (req, res) => {
     database
       .insert(req.body.name)
