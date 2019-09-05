@@ -5,7 +5,7 @@ const userRouter = require("./users/userRouter");
 const server = express();
 
 server.use(express.json());
-server.use("/userRouter", userRouter);
+server.use("/userRouter", logger, userRouter);
 
 server.get("/", (req, res) => {
   res.send(`server test!`);
@@ -14,9 +14,7 @@ server.get("/", (req, res) => {
 //custom middleware
 function logger(req, res, next) {
   console.log(
-    `[${new Date().toISOString()}] ${req.method} to ${req.url} from ${req.get(
-      "Origin"
-    )}`
+    `${req.method} to ${req.url}`
   );
   next(); // tells express to move to next middleware in que
 }

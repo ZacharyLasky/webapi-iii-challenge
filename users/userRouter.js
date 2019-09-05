@@ -15,17 +15,9 @@ router.post("/", (req, res) => {
     });
 });
 
-router.post("/:id/posts", validateUserId, (req, res) => {
-  const data = req.body;
-  database
-    .insert(data)
-    .then(user => {
-      res.status(200).json(user);
-    })
-    .catch(error => {
-      res.status(500).json({ message: error });
-    });
-});
+// router.post("/:id/posts", validateUserId, (req, res) => {
+  
+// });
 
 router.get("/", (req, res) => {
   database
@@ -39,16 +31,13 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", validateUserId, (req, res) => {
-  const id = req.params.id;
-
-  database
-    .getById(id)
+  database.getById(req.params.id)
     .then(user => {
-      res.status(200).json(user);
+      res.status(200).json(user)
     })
     .catch(error => {
-      res.status(500).json({ message: error });
-    });
+      res.status(500).json({message: error})
+    })
 });
 
 router.get("/:id/posts", (req, res) => {});
@@ -60,9 +49,15 @@ router.put("/:id", (req, res) => {});
 //custom middleware
 
 function validateUserId(req, res, next) {
-  const id = req.params.id;
-  
-  next();
+  database.getById(req.params.id) 
+   .then(user => {
+     if (user) {
+       next();
+     }
+     else {
+       res.status(404).json({message: "invalid id"})
+     }
+   })
 }
 
 function validateUser(req, res, next) {}
